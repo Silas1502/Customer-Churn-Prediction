@@ -91,16 +91,54 @@ Biến mục tiêu
   
   **Random Forest**
   
-  Gradient Boosting
+  **Gradient Boosting**
   
-  XGBoost
+  **XGBoost**
   
   Mỗi mô hình được huấn luyện với 3 cách xử lý imbalance:
   
-  Original
+  **Original**
   
-  Class Weight
+  **Class Weight/  Sample Weight**
   
-  SMOTE
+  **SMOTE**
   
   Sau đó tiến hành so sánh performance trên tập validation/test.
+  
+  **3.5 Model Selection & Threshold Tuning**
+
+   Trong các mô hình được thử nghiệm, XGBoost với scale_pos_weight cho kết quả tốt nhất khi đạt recall cao nhất (0.73) và F1-score cao nhất (0.54), cho thấy khả năng phát hiện khách hàng rời bỏ hiệu quả nhất. Mặc dù accuracy không cao nhất, nhưng trong bài toán churn, việc tối ưu recall quan trọng hơn. Gradient Boosting kết hợp với SMOTE cũng cho kết quả tốt với recall 0.71 và được chọn làm mô hình dự phòng.
+   
+   Ngưỡng phân loại được điều chỉnh từ 0.5 xuống 0.4 để tăng khả năng phát hiện churn.
+   
+**4. Kết quả**
+
+Mô hình cho kết quả ổn định giữa validation và test, cho thấy khả năng tổng quát hóa tốt. Ngưỡng dự đoán được tối ưu trên tập validation, sau đó áp dụng lên tập test và đạt recall cao (~81%) cho nhóm churn, phù hợp mục tiêu phát hiện khách hàng rời bỏ, dù phải đánh đổi precision.
+
+Các metric được sử dụng để đánh giá:
+
+**Precision**
+
+**Recall**
+
+**F1-score**
+
+**Confusion Matrix**
+
+**ROC-AUC**
+
+**5. Phân tích các đặc trưng quan trọng**
+
+Sau khi trích xuất các đặc trưng ảnh hưởng thì kết quả cho thấy **NumOfProducts** và **Age** là hai yếu tố ảnh hưởng mạnh nhất đến khả năng churn. Khách hàng sử dụng ít sản phẩm ngân hàng và khách hàng lớn tuổi có xu hướng rời bỏ dịch vụ cao hơn. Ngoài ra, yếu tố khu vực cũng đóng vai trò đáng kể khi khách hàng tại **Germany** có xác suất churn cao hơn so với các khu vực khác.
+
+**6. Business Recommentation**
+
+Dựa trên kết quả mô hình, các nhóm khách hàng có nguy cơ churn cao bao gồm khách lớn tuổi, có số dư cao và đặc biệt là nhóm khách chỉ sử dụng 1 sản phẩm. Đây là nhóm chiếm tỷ trọng lớn và có tỷ lệ churn tương đối cao, do đó cần được ưu tiên trong chiến lược giữ chân.
+
+Doanh nghiệp có thể áp dụng các chiến lược như cross-sell để khuyến khích khách hàng sử dụng thêm sản phẩm, kết hợp với các chương trình ưu đãi và cá nhân hóa trải nghiệm nhằm tăng mức độ gắn kết.
+
+Ngoài ra, nhóm khách hàng sử dụng 3–4 sản phẩm có tỷ lệ churn rất cao nhưng số lượng nhỏ, nên cần được theo dõi như một nhóm rủi ro cao. Nếu xu hướng này được xác nhận, có thể do nhóm khách này có kỳ vọng cao và dễ rời bỏ khi không hài lòng.
+
+**7. Deployment**
+
+Mô hình có thể được triển khai để dự đoán xác suất churn hàng tháng. Những khách hàng có xác suất > 0.4 sẽ được đưa vào danh sách cảnh báo để đội marketing thực hiện các chiến dịch giữ chân.
