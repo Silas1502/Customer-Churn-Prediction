@@ -1,9 +1,10 @@
-**DỰ ĐOÁN KHÁCH HÀNG RỜI BỎ**
+# 📊 DỰ ĐOÁN KHÁCH HÀNG RỜI BỎ (Customer Churn Prediction)
 
-**1. Giới thiệu**
+## 📌1. Giới thiệu
+
    Trong lĩnh vực ngân hàng, việc khách hàng rời bỏ dịch vụ (customer churn) gây ảnh hưởng trực tiếp đến doanh thu và chi phí thu hút khách hàng mới. Vì vậy, khả năng dự đoán sớm khách hàng có nguy cơ churn giúp doanh nghiệp triển khai các chiến lược giữ chân hiệu quả.
 
-  **Mục tiêu của project:**
+  ### Mục tiêu của project:
   
   - Xây dựng mô hình dự đoán khả năng khách hàng rời bỏ dịch vụ.
   
@@ -11,7 +12,7 @@
   
   - Đề xuất các insight giúp doanh nghiệp giảm tỷ lệ churn.
 
-**2. Dataset**
+## 🗂2. Dataset
 
 Dataset gồm **10,000** khách hàng ngân hàng được công bố trên **Kaggle** với các thông tin nhân khẩu học và hành vi sử dụng dịch vụ.
 
@@ -45,8 +46,8 @@ Biến mục tiêu
 
 **EstimatedSalary** – Thu nhập ước tính
 
-**3. Quy trình thực hiện
-   3.1 Exploratory Data Analysis (EDA)**
+## ⚙️3. Quy trình thực hiện
+   🔎3.1 Exploratory Data Analysis (EDA)**
    Phân tích dữ liệu ban đầu cho thấy:
 
   **IsActiveMember** có ảnh hưởng mạnh đến churn
@@ -67,11 +68,11 @@ Biến mục tiêu
   
   Các biến như **CreditScore, Tenure, Balance, EstimatedSalary** không cho thấy sự phân tách rõ ràng khi xét riêng lẻ, nhưng vẫn có thể đóng vai trò quan trọng khi kết hợp trong mô hình.
 
- **3.2 Phân tích Outlier**
+ ## 📊3.2 Phân tích Outlier
 
   Biến Age có xuất hiện một số giá trị được xem là outlier theo thống kê. Tuy nhiên, các giá trị này vẫn hợp lý trong bối cảnh khách hàng ngân hàng, do đó không thực hiện xử lý outlier.
 
-  **3.3 Xử lý mất cân bằng dữ liệu**
+ ## ⚖️3.3 Xử lý mất cân bằng dữ liệu
 
   Dữ liệu bị mất cân bằng, với số lượng khách hàng không churn lớn hơn nhiều so với churn.
   
@@ -83,7 +84,7 @@ Biến mục tiêu
   
   - SMOTE (Synthetic Minority Oversampling Technique)
 
-  **3.4 Xây dựng mô hình**
+ ## 🤖3.4 Xây dựng mô hình
 
   Các mô hình được thử nghiệm:
   
@@ -105,13 +106,13 @@ Biến mục tiêu
   
   Sau đó tiến hành so sánh performance trên tập validation/test.
   
-  **3.5 Model Selection & Threshold Tuning**
+  ## 🏆3.5 Model Selection & Threshold Tuning
 
    Trong các mô hình được thử nghiệm, XGBoost với scale_pos_weight cho kết quả tốt nhất khi đạt recall cao nhất (0.73) và F1-score cao nhất (0.54), cho thấy khả năng phát hiện khách hàng rời bỏ hiệu quả nhất. Mặc dù accuracy không cao nhất, nhưng trong bài toán churn, việc tối ưu recall quan trọng hơn. Gradient Boosting kết hợp với SMOTE cũng cho kết quả tốt với recall 0.71 và được chọn làm mô hình dự phòng.
    
    Ngưỡng phân loại được điều chỉnh từ 0.5 xuống 0.4 để tăng khả năng phát hiện churn.
    
-**4. Kết quả**
+## 📈4. Kết quả
 
 Mô hình cho kết quả ổn định giữa validation và test, cho thấy khả năng tổng quát hóa tốt. Ngưỡng dự đoán được tối ưu trên tập validation, sau đó áp dụng lên tập test và đạt recall cao (~81%) cho nhóm churn, phù hợp mục tiêu phát hiện khách hàng rời bỏ, dù phải đánh đổi precision.
 
@@ -127,11 +128,11 @@ Các metric được sử dụng để đánh giá:
 
 **ROC-AUC**
 
-**5. Phân tích các đặc trưng quan trọng**
+## 🔍5. Phân tích các đặc trưng quan trọng
 
 Sau khi trích xuất các đặc trưng ảnh hưởng thì kết quả cho thấy **NumOfProducts** và **Age** là hai yếu tố ảnh hưởng mạnh nhất đến khả năng churn. Khách hàng sử dụng ít sản phẩm ngân hàng và khách hàng lớn tuổi có xu hướng rời bỏ dịch vụ cao hơn. Ngoài ra, yếu tố khu vực cũng đóng vai trò đáng kể khi khách hàng tại **Germany** có xác suất churn cao hơn so với các khu vực khác.
 
-**6. Business Recommentation**
+## 💡6. Business Recommentation
 
 Dựa trên kết quả mô hình, các nhóm khách hàng có nguy cơ churn cao bao gồm khách lớn tuổi, có số dư cao và đặc biệt là nhóm khách chỉ sử dụng 1 sản phẩm. Đây là nhóm chiếm tỷ trọng lớn và có tỷ lệ churn tương đối cao, do đó cần được ưu tiên trong chiến lược giữ chân.
 
@@ -139,6 +140,6 @@ Doanh nghiệp có thể áp dụng các chiến lược như cross-sell để k
 
 Ngoài ra, nhóm khách hàng sử dụng 3–4 sản phẩm có tỷ lệ churn rất cao nhưng số lượng nhỏ, nên cần được theo dõi như một nhóm rủi ro cao. Nếu xu hướng này được xác nhận, có thể do nhóm khách này có kỳ vọng cao và dễ rời bỏ khi không hài lòng.
 
-**7. Deployment**
+## 🚀7. Deployment
 
 Mô hình có thể được triển khai để dự đoán xác suất churn hàng tháng. Những khách hàng có xác suất > 0.4 sẽ được đưa vào danh sách cảnh báo để đội marketing thực hiện các chiến dịch giữ chân.
